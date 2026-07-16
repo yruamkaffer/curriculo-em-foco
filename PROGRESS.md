@@ -22,4 +22,4 @@
 - [x] Lint, typecheck, testes e build.
 - [x] Teste de extração do PDF.
 - [x] Verificação visual desktop e mobile.
-- [ ] Repositório GitHub publicado.
+- [x] Repositório GitHub publicado.
