@@ -2,12 +2,15 @@ import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
+import { TEST_JOB, TEST_RESUME } from "../test/fixtures";
 
-test("fluxo completo com exemplo fictício", async ({ page }) => {
+test("fluxo completo com dados informados pelo usuário", async ({ page }) => {
   await page.goto("/");
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.getByRole("link", { name: /analisar meu currículo/i }).click();
-  await page.getByRole("button", { name: /usar exemplo fictício/i }).click();
+  await expect(page.getByRole("button", { name: /usar exemplo fictício/i })).toHaveCount(0);
+  await page.getByLabel("Texto completo da vaga").fill(TEST_JOB);
+  await page.getByLabel("Texto revisado do currículo").fill(TEST_RESUME);
   await page.getByRole("button", { name: /analisar compatibilidade/i }).click();
   await expect(page.getByRole("heading", { name: /compatibilidade estimada/i })).toBeVisible();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
@@ -20,7 +23,7 @@ test("fluxo completo com exemplo fictício", async ({ page }) => {
   expect(downloadedPdf.suggestedFilename()).toMatch(/^Curriculo_.*\.pdf$/);
   const pdfDirectory = path.join(process.cwd(), "tmp", "pdfs");
   await mkdir(pdfDirectory, { recursive: true });
-  await downloadedPdf.saveAs(path.join(pdfDirectory, "curriculo-exemplo.pdf"));
+  await downloadedPdf.saveAs(path.join(pdfDirectory, "curriculo-teste.pdf"));
   await page.getByRole("button", { name: /limpar meus dados/i }).click();
   await page.getByRole("button", { name: /sim, limpar/i }).click();
   await expect(page.getByRole("heading", { name: /vaga e currículo/i })).toBeVisible();

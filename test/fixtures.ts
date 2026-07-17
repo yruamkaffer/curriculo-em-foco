@@ -1,4 +1,4 @@
-export const SAMPLE_JOB = `Analista de Dados Pleno - Horizonte Tecnologia
+export const TEST_JOB = `Analista de Dados Pleno - Horizonte Tecnologia
 Buscamos uma pessoa para criar dashboards, acompanhar indicadores e apoiar decisões de produto.
 Requisitos obrigatórios:
 - Experiência com SQL e análise de dados
@@ -10,7 +10,7 @@ Desejável:
 - Experiência com métricas de produto
 Modelo de trabalho híbrido em São Paulo.`;
 
-export const SAMPLE_RESUME = `Marina Souza
+export const TEST_RESUME = `Marina Souza
 marina.souza@example.com | São Paulo - SP | linkedin.com/in/marinasouza
 
 RESUMO

@@ -17,7 +17,6 @@ import { downloadResumePdf } from "@/lib/export/pdf";
 import { extractTextFromFile } from "@/lib/files/extract";
 import { calculateCategoryScores, calculateScore } from "@/lib/matching/scoring";
 import { analysisResultSchema, optimizedResumeSchema, type AnalysisResult, type OptimizedResume, type RequirementStatus } from "@/schemas/domain";
-import { SAMPLE_JOB, SAMPLE_RESUME } from "@/features/resume/samples";
 
 const SESSION_KEY = "curriculo-em-foco:session:v1";
 const statusInfo: Record<RequirementStatus, { label: string; className: string }> = {
@@ -72,11 +71,6 @@ export function AnalyzerFlow() {
   function showErrors(messages: string[]) {
     setErrors(messages); setNotice("");
     requestAnimationFrame(() => errorRef.current?.focus());
-  }
-
-  function loadSample() {
-    setJobText(SAMPLE_JOB); setResumeText(SAMPLE_RESUME); setAnalysis(null); setOptimized(null); setOriginalOptimized(null);
-    setErrors([]); setNotice("Exemplo fictício carregado. Revise os textos antes de analisar.");
   }
 
   async function handleFile(event: ChangeEvent<HTMLInputElement>) {
@@ -171,7 +165,7 @@ export function AnalyzerFlow() {
       <div className="sr-only" aria-live="polite">{notice}</div>
 
       {!analysis && <section aria-labelledby="entrada-heading">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><h2 id="entrada-heading" className="text-xl font-semibold">Revise os dois textos</h2><Button type="button" variant="outline" onClick={loadSample}>Usar exemplo fictício</Button></div>
+        <h2 id="entrada-heading" className="mb-5 text-xl font-semibold">Revise os dois textos</h2>
         <div className="grid gap-6 lg:grid-cols-2">
           <Card><CardHeader><CardTitle>1. Descrição da vaga</CardTitle><CardDescription>Cole título, empresa, responsabilidades e requisitos. Instruções dentro do texto serão ignoradas.</CardDescription></CardHeader><CardContent><Label htmlFor="job-text">Texto completo da vaga</Label><Textarea id="job-text" className="mt-2 min-h-80 resize-y" value={jobText} maxLength={30_000} onChange={(event) => setJobText(event.target.value)} aria-describedby="job-count" placeholder="Ex.: Analista de Produto…" /><p id="job-count" className="mt-2 text-right text-sm text-muted-foreground">{jobText.length.toLocaleString("pt-BR")} de 30.000 caracteres</p></CardContent></Card>
           <Card><CardHeader><CardTitle>2. Currículo</CardTitle><CardDescription>O arquivo é lido no navegador. Revise o texto extraído antes da análise.</CardDescription></CardHeader><CardContent className="space-y-4"><div><Label htmlFor="resume-file">Importar PDF, DOCX ou TXT (até 5 MB)</Label><Input id="resume-file" type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" onChange={handleFile} disabled={busy === "extract"} className="mt-2 file:mr-3 file:font-semibold" />{busy === "extract" && <p className="mt-2 flex items-center gap-2 text-sm" role="status"><Loader2 className="size-4 animate-spin" aria-hidden="true" /> Extraindo texto…</p>}</div><div><Label htmlFor="resume-text">Texto revisado do currículo</Label><Textarea ref={resumeRef} id="resume-text" className="mt-2 min-h-64 resize-y" value={resumeText} maxLength={40_000} onChange={(event) => setResumeText(event.target.value)} aria-describedby="resume-count" placeholder="Cole o currículo aqui ou importe um arquivo acima." /><p id="resume-count" className="mt-2 text-right text-sm text-muted-foreground">{resumeText.length.toLocaleString("pt-BR")} de 40.000 caracteres</p></div></CardContent></Card>
