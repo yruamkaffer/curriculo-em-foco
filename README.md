@@ -39,6 +39,11 @@ O MVP foi criado para ser:
 
 > A compatibilidade apresentada é uma estimativa baseada no conteúdo fornecido. Ela não representa chance de contratação nem garante aprovação em processos seletivos.
 
+<img src="curriculo-em-foco (1).PNG">
+<img src="curriculo-em-foco (2).PNG">
+<img src="curriculo-em-foco (3).PNG">
+<img src="curriculo-em-foco (4).PNG">
+
 ## 🇺🇸 About the project
 
 **Currículo em Foco** helps people understand how their resume relates to a specific job before applying.
